@@ -1,0 +1,17 @@
+<mat-card class="card">
+    <mat-card-title-group>
+        <mat-card-title class="title">{{book.title}}</mat-card-title>
+        <mat-card-subtitle class="subtitle">{{book.synopsis}}</mat-card-subtitle>
+        <img mat-card-lg-image src="{{book.cover}}">
+    </mat-card-title-group>
+    <mat-card-actions>
+        <div class="left">
+            <span>Prix : {{book.price | currency:'EUR':'symbol' }}</span>
+        </div>
+        <div class="right">
+            <button mat-icon-button color="primary" attr.aria-label="Ajouter au panier le livre {{book.title}}" [disabled]="disableButton" (click)="addButton(book)">
+                <mat-icon>add_shopping_cart</mat-icon>
+            </button>
+        </div>
+    </mat-card-actions>
+</mat-card>

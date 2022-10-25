@@ -1,0 +1,7 @@
+<h1 class="mat-h1">Contenu du panier</h1>
+<mat-list role="list">
+    <mat-list-item role="listitem" *ngFor="let book of books$ | async">
+        <span>{{book.title}} - Prix : {{book.price | currency:'EUR':'symbol' }}</span>
+    </mat-list-item>
+</mat-list>
+  
