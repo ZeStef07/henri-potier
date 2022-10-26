@@ -3,6 +3,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { BasketState } from 'src/app/models/basket-state';
 import { Book } from 'src/app/models/book';
+import { Proposition } from 'src/app/models/proposition';
 import { BasketService } from 'src/app/services/basket.service';
 
 @Component({
@@ -14,7 +15,7 @@ export class BasketComponent implements OnInit, OnDestroy {
 
   displayedColumns: string[] = ['item', 'price', 'quantity', 'actions'];
   dataSource = new MatTableDataSource<Book>;
-  totalPrice$!: Observable<number>;
+  totalProposition$!: Observable<Proposition>;
   totalQuantity$!: Observable<number>;
   destroyed$: Subject<boolean> = new Subject();
 
@@ -31,8 +32,8 @@ export class BasketComponent implements OnInit, OnDestroy {
     ).subscribe((basketState: BasketState) => {
       this.dataSource.data = basketState.books;
     });
-    
-    this.totalPrice$ = this.basketService.getBasketTotalPrice();
+
+    this.totalProposition$ = this.basketService.getBasketTotalPrice();
     this.totalQuantity$ = this.basketService.getBasketTotalItems();
   }
 

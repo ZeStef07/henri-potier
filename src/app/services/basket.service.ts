@@ -4,6 +4,7 @@ import { BasketState } from '../models/basket-state';
 import { Book } from '../models/book';
 import { CommercialOffers } from '../models/commercial-offers';
 import { Offer } from '../models/offer';
+import { Proposition } from '../models/proposition';
 import { OFFER_TYPE } from '../models/utils';
 import { BooksService } from './books.service';
 
@@ -101,7 +102,7 @@ export class BasketService {
    * Récupère le total à payer
    * @returns Retourne le montant à payer
    */
-  getBasketTotalPrice(): Observable<number> {
+  getBasketTotalPrice(): Observable<Proposition> {
     return this._booksSubject$.asObservable().pipe(
       mergeMap(_ => this.booksService.getCommercialOffers(this._books)),
       map((commercialOffers: CommercialOffers | undefined) => this.computeTotalPrice(this._books, commercialOffers))
@@ -114,13 +115,15 @@ export class BasketService {
    * @param commercialOffers La liste des offres commerciales (réductions)
    * @returns Retourne le total avec la meilleure remise appliquée
    */
-  private computeTotalPrice(books: Book[], commercialOffers: CommercialOffers | undefined): number {
+  private computeTotalPrice(books: Book[], commercialOffers: CommercialOffers | undefined): Proposition {
     const total = books.reduce((accumulator, book) => accumulator + book.price * book.basketQuantity, 0)
     if(!commercialOffers) { 
-      return total;
+      return {offer: undefined, total};
     }
     // On calcule tous les montants en fonction des offres et on prend la meilleure (montant le plus bas)
-    const allPropositions: number[] = commercialOffers.offers.map((offer: Offer) => this.computeTotalWithOffer(total, offer)).sort((a, b) => a - b);
+    const allPropositions: Proposition[] = commercialOffers.offers.map((offer: Offer) => {
+      return this.computeTotalWithOffer(total, offer);
+    }).sort((a, b) => a.total - b.total);
     return allPropositions[0];
   }
 
@@ -130,20 +133,20 @@ export class BasketService {
    * @param offer Offre commerciale à appliquer
    * @returns Retourne le total emputé de l'offre à appliquer
    */
-  private computeTotalWithOffer(total: number, offer: Offer): number {
+  private computeTotalWithOffer(total: number, offer: Offer): Proposition {
     if(!offer) {
-      return total;
+      return { offer: undefined, total };
     }
     // Pour chaque type d'offre on calcule le total
     switch(offer.type) {
       case OFFER_TYPE.PERCENTAGE:
-        return this.computePercentage(total, offer.value);
+        return { offer: `Une remise de ${offer.value}% a été appliquée`, total: this.computePercentage(total, offer.value)};
       case OFFER_TYPE.MINUS:
-        return this.computeMinus(total, offer.value);
+        return { offer: `Une remise de ${offer.value} € a été appliquée`, total: this.computeMinus(total, offer.value)};
       case OFFER_TYPE.SLICE:
-        return this.computeSlice(total, offer.value, offer.sliceValue);
+        return { offer: `Une remise de ${offer.value} par tranche de ${offer.sliceValue} a été appliquée`, total: this.computeSlice(total, offer.value, offer.sliceValue)};
       default:
-        return total;
+        return { offer: undefined, total};
     }
   }
 
