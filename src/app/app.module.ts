@@ -18,10 +18,14 @@ import { HeaderComponent } from './components/header/header.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CardComponent } from './components/card/card.component';
 import { MatListModule } from '@angular/material/list'; 
+import { MatTableModule } from '@angular/material/table';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatInputModule} from '@angular/material/input';
 
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { BasketComponent } from './components/basket/basket.component';
+import { FormsModule } from '@angular/forms';
 
 registerLocaleData(localeFr);
 
@@ -47,6 +51,10 @@ registerLocaleData(localeFr);
     HttpClientModule,
     MatBadgeModule,
     MatListModule,
+    MatTableModule,
+    MatProgressSpinnerModule,
+    MatInputModule,
+    FormsModule,
     LayoutModule
   ],
   providers: [

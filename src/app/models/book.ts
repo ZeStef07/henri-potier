@@ -4,4 +4,5 @@ export interface Book {
     price: number;
     cover: string;
     synopsis: string[];
+    basketQuantity: number;
 }
