@@ -9,8 +9,13 @@
             <span>Prix : {{book.price | currency:'EUR':'symbol' }}</span>
         </div>
         <div class="right">
-            <button mat-icon-button color="primary" attr.aria-label="Ajouter au panier le livre {{book.title}}" [disabled]="disableButton" (click)="addButton(book)">
-                <mat-icon>add_shopping_cart</mat-icon>
+            <button mat-icon-button color="primary" attr.aria-label="Ajouter au panier le livre {{book.title}}" (click)="addButton(book)">
+                <mat-icon>add</mat-icon>
+            </button>
+            <span *ngIf="(bookQuantityInBasket | async); else zeroQuantity">{{bookQuantityInBasket | async}}</span>
+            <ng-template #zeroQuantity>&nbsp;</ng-template>
+            <button mat-icon-button color="primary" attr.aria-label="Supprimer du panier le livre {{book.title}}" (click)="removeButton(book)">
+                <mat-icon>remove</mat-icon>
             </button>
         </div>
     </mat-card-actions>

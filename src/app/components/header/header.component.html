@@ -1,11 +1,21 @@
 <div class="header">
     <mat-toolbar color="primary">
         <mat-toolbar-row>
-            <span routerLink="/home">Ze Henri Poter Shop!</span>
-            <span class="example-spacer"></span>
-            <mat-icon [matBadge]="itemsNumber$ | async" matBadgeColor="warn" routerLink="/basket">shopping_basket</mat-icon>
-            <!-- Accessibilité pour les lecteurs d'écran -->
+            <span routerLink="/home">Ze Henri Potier Shop!</span>
+            <span class="spacer"></span>
+            <button mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+                <mat-icon routerLink="/home">home</mat-icon>
+            </button>
             <span class="cdk-visually-hidden">
+                <!-- Pour les lecteurs d'écran -->
+                Aller à la page d'accueil
+            </span>
+            <mat-divider></mat-divider>
+            <button mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+                <mat-icon [matBadge]="itemsNumber$ | async" matBadgeColor="warn" routerLink="/basket">shopping_basket</mat-icon>
+            </button>
+            <span class="cdk-visually-hidden">
+                <!-- Pour les lecteurs d'écran -->
                 Aller au panier
             </span>
         </mat-toolbar-row>

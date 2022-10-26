@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Book } from 'src/app/models/book';
 
 @Component({
@@ -9,6 +10,7 @@ import { Book } from 'src/app/models/book';
 export class CardComponent {
 
   @Input() book!: Book;
+  @Input() bookQuantityInBasket!: Observable<number>;
   @Output() clickAddButton = new EventEmitter<Book>();
   @Output() clickRemoveButton = new EventEmitter<Book>();
 

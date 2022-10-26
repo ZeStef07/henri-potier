@@ -13,6 +13,6 @@ export class HeaderComponent implements OnInit {
   constructor(private basketService: BasketService) { }
 
   ngOnInit(): void {
-    this.itemsNumber$ = this.basketService.getBasketItemsNumber();
+    this.itemsNumber$ = this.basketService.getBasketTotalItems();
   }
 }
