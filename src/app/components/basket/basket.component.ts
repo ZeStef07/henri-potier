@@ -17,16 +17,14 @@ export class BasketComponent implements OnInit, OnDestroy {
   dataSource = new MatTableDataSource<Book>;
   totalProposition$!: Observable<Proposition>;
   totalQuantity$!: Observable<number>;
-  destroyed$: Subject<boolean> = new Subject();
+  // Permet de gérer la désinscription
+  destroyed$: Subject<void> = new Subject();
 
   constructor(
     private basketService: BasketService
   ) { }
 
   ngOnInit(): void {
-    // Permet de gérer la désinscription
-    this.destroyed$.next(false);
-
     this.basketService.getBasketItems().pipe(
       takeUntil(this.destroyed$)
     ).subscribe((basketState: BasketState) => {
@@ -54,6 +52,6 @@ export class BasketComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.destroyed$.next(true);
+    this.destroyed$.next();
   }
 }
